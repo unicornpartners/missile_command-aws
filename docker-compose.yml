@@ -2,6 +2,8 @@ version: '2'
 services:
   nginx:
     build: .
+    volumes:
+      - ./unicorn_command:/usr/share/nginx/html
     ports:
       - "80:80"
-    image: carmenpuccio/missile_command-aws
+    image: carmenpuccio/unicorn_command-aws

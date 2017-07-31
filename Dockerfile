@@ -3,7 +3,7 @@ FROM amazonlinux:latest
 RUN yum install -y nginx && \
     touch /var/log/nginx/access.log
 
-COPY missile_command /usr/share/nginx/html/
+COPY unicorn_command /usr/share/nginx/html/
 
 EXPOSE 80
 
