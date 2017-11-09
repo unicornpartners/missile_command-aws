@@ -145,7 +145,6 @@ var unicornCommand = (function() {
     ctx.fillText( 'Final Score: ' + score, 80, 20 );
     ctx.fillText( 'CLICK TO PLAY NEW GAME', 80, 458 );
 
-    commandTracking.trackScore(score);
   };
 
   // Draw all active cities
@@ -677,61 +676,7 @@ var unicornCommand = (function() {
 
 })();
 
-
-var teamId, name;
-var commandTracking = (function() {
-
-  var getTeamId = function() {
-    teamId = prompt("Please enter your team name:", "Red Team");
-    if (teamId == null || teamId == "") {
-      getTeamId();
-    } else {
-      getName();
-    }
-  };
-
-  var getName = function() {
-    name = prompt("Please enter your name:", "Donkey Kong");
-    if (teamId == null || teamId == "") {
-      getName();
-    } else {
-      trackLoad();
-    }
-  };
-
-  var trackLoad = function() {
-    $.ajax({
-      type: "POST",
-      url: "https://cen0py6fac.execute-api.us-west-2.amazonaws.com/v1/missilecommand",
-      contentType: "application/json",
-      data: JSON.stringify({ teamId: teamId, name: name })
-    }).done(function (data) {
-      console.log(data);
-    });
-  };
-
-  var trackScore = function(score) {
-    $.ajax({
-      type: "POST",
-      url: "https://cen0py6fac.execute-api.us-west-2.amazonaws.com/v1/missilecommand/score",
-      contentType: "application/json",
-      data: JSON.stringify({ teamId: teamId, name: name, score: score })
-    }).done(function (data) {
-      console.log(data);
-    });
-  };
-
-  return {
-    getTeamId: getTeamId,
-    getName: getName,
-    trackLoad: trackLoad,
-    trackScore: trackScore
-  };
-})();
-
-
 $( document ).ready( function() {
   unicornCommand.initialize();
   unicornCommand.setupListeners();
-  commandTracking.getTeamId();
 });
